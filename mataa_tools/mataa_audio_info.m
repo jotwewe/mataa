@@ -43,7 +43,7 @@ u = mataa_settings('audioinfo_skipcheck');
 if u
 	% Skip the TestDevices run, return generic info for a typical audio interface instead
 	
-	warning ('mataa_audio_interface: checking audio interface properties is turned off in the MATAA settings. Returning audio info for a typical / generic audio interface!')
+	%%% warning ('mataa_audio_interface: checking audio interface properties is turned off in the MATAA settings. Returning audio info for a typical / generic audio interface!')
 	
 	switch plat
 		case 'MAC'
@@ -62,7 +62,7 @@ if u
     
 	audioInfo.input.name = '***GENERIC-UNTESTED***';
 	audioInfo.input.channels = 2;
-	audioInfo.input.sampleRates = [ 44100 48000 88200 9600 176400 192000 ];
+	audioInfo.input.sampleRates = [ 44100 48000 88200 96000 176400 192000 ];
 	audioInfo.input.API = API;
 	audioInfo.output = audioInfo.input;
 	
