@@ -38,11 +38,7 @@ function audioInfo = mataa_audio_info;
 plat = mataa_computer;
 
 % check if running TestDevices should be avoided:
-u = mataa_settings ('audioinfo_skipcheck');
-if isempty(u) % settings don't have the skipcheck field
-	mataa_settings ('audioinfo_skipcheck',0); % set and store default
-	u = 0;
-end
+u = mataa_settings('audioinfo_skipcheck');
 
 if u
 	% Skip the TestDevices run, return generic info for a typical audio interface instead

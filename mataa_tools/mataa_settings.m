@@ -51,26 +51,53 @@ reset_to_def = ~exist(path,'file');
 
 if (~reset_to_def && exist('field','var')) reset_to_def = strcmp(field,'reset'); end
 
+  % Define default settings:
+  defaultsettings.plotColor = 'b';
+  
+  % More than 1 looks better on modern devices, but octave+gnuplot slows down painfully:
+  defaultsettings.plot_linewidth = 1;
+  
+  % Use one of north, northwest, west, southwest, south, ...:
+  defaultsettings.plot_legendpos_mag = "south";
+    
+  %% DEPRECATED: defaultsettings.microphone = 'unknown_microphone';
+  defaultsettings.plotWindow_IR = 1;
+  defaultsettings.plotWindow_SR = 2;
+  defaultsettings.plotWindow_FR = 3;
+  defaultsettings.plotWindow_CSD = 4;
+  defaultsettings.plotWindow_ETC = 5;
+  defaultsettings.plotWindow_HD = 6;
+  defaultsettings.plotWindow_impedance = 7;
+  defaultsettings.plotWindow_TBES = 8;
+  defaultsettings.openPlotAfterSafe = 1;
+  
+  defaultsettings.channel_DUT = 1;
+  defaultsettings.channel_REF = 2;
+  
+  defaultsettings.interchannel_delay = 0;
+  
+  % don't run the TestDevices check and return generic audio info instead (suitable 
+  % for a typical audio interface, stereo, full duplex). This is useful to skip the 
+  % query to audio interfaces which do nasty things when TestDevices asks them for
+  % their properties (such as the RTX-6001 which goes crazy with relays clicking) or 
+  % to simply save time.
+  defaultsettings.audioinfo_skipcheck = 0; 
+  
+  % Set to 0.0001 in case of output problems (I needed it with:
+  % PC -> USB -> optical S/PDIF -> Sony STR-DE485E). Does not cause problems in 
+  % other cases, therefore becomes default.
+  defaultsettings.padding_level = 0.0001;
+  
+  % Duration to pad test signals at beginning and end. Increase this value if you
+  % experience truncated signals.
+  % mataa_ - functions don't use this value but an argument specifying it. The author
+  % of the raa_ - functions assumes that most users will be fine with a preset they
+  % can change in case of specific hardware.
+  defaultsettings.padding_duration = 0.2;
+
 if reset_to_def
 	% create / reset to default settings:
-	mataa_settings.plotColor = 'b';
-	%% DEPRECATED: mataa_settings.microphone = 'unknown_microphone';
-	mataa_settings.plotWindow_IR = 1;
-	mataa_settings.plotWindow_SR = 2;
-	mataa_settings.plotWindow_FR = 3;
-	mataa_settings.plotWindow_CSD = 4;
-	mataa_settings.plotWindow_ETC = 5;
-	mataa_settings.plotWindow_HD = 6;
-	mataa_settings.plotWindow_impedance = 7;
-	mataa_settings.plotWindow_TBES = 8;
-	mataa_settings.openPlotAfterSafe = 1;
-	
-	mataa_settings.channel_DUT = 1;
-	mataa_settings.channel_REF = 2;
-	
-    mataa_settings.interchannel_delay = 0;
-    
-    mataa_settings.audioinfo_skipcheck = 0; % don't run the TestDevices check and return generic audio info instead (suitable for a typical audio interface, stereo, full duplex). This is useful to skip the query to audio interfaces which do nasty things when TestDevices asks them for their properties (such as the RTX-6001 which goes crazy with relays clicking)
+	mataa_settings = defaultsettings;
 	
 	cc = [ 'save -mat ' path ' mataa_settings ; ' ];
 	disp(sprintf('Creating / resetting to MATAA default settings (command: %s)...',cc));
@@ -82,6 +109,14 @@ end
 
 % load settings from disk:
 load(path);
+
+% Default values for settings added in later versions:
+cFN = fieldnames(defaultsettings);
+for n=1:length(cFN)
+  if isfield(mataa_settings, cFN{n}) == 0
+    mataa_settings.(cFN{n}) = defaultsettings.(cFN{n});
+  end
+end
 
 if nargin==0 % return all settings
 	val = mataa_settings;	

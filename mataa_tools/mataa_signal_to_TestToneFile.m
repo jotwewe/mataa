@@ -65,7 +65,7 @@ if exist('zeroTime','var')
 
     % z = repmat(0,n,nChannels); THIS FAILS FOR LARGE n. Is this a bug in Octave?
 
-    z = repmat(0,round(n),1);
+    z = repmat(mataa_settings('padding_level'),round(n),1);
     z = repmat(z,1,nChannels);
     s = [ z ; s ; z ];
 end
