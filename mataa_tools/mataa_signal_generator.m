@@ -224,7 +224,7 @@ end % of function
 
 
 function [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
-  % -- [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
+  % function [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
   %
   %     fs: sampling rate
   %     vf: vector of frequencies

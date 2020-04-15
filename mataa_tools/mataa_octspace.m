@@ -1,5 +1,5 @@
 function spaced_freqs = mataa_octspace(fmin, fmax, per_oct)
-  % -- spaced_freqs = mataa_octspace(fmin, fmax, per_oct)
+  % function spaced_freqs = mataa_octspace(fmin, fmax, per_oct)
   %     Returns a vector of frequencies between fmin and fmax 
   %     with per_oct items per octave.
   

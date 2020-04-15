@@ -1,5 +1,5 @@
 function h = mataa_calc_IR(ref, dut)
-  % -- function h = mataa_calc_IR(ref, dut)
+  % function h = mataa_calc_IR(ref, dut)
   %     Calculate impulse response 'h' from input signal 'ref' and output signal 'dut'.
   
   %
