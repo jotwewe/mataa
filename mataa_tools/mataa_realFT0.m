@@ -60,5 +60,5 @@ end
 % Discard negative half of spectrum:
 S = S(1:N);
 
-% construct frequency vecor:
+% construct frequency vector:
 f = mataa_t_to_f0(t);
