@@ -1,6 +1,7 @@
-function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
+function [s,t,info] = mataa_signal_generator (kind,fs,T,param, param2)
 
-% function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
+% function [s,t,info] = mataa_signal_generator (kind, fs, T, param)
+% function [s,t,info] = mataa_signal_generator ('burst', fs, T_pause, frequencies, num_cycles)
 %
 % DESCRIPTION:
 % This function creates a signal s(t) of a specified type.
@@ -27,6 +28,10 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % 'triangle','tri':   Triangle wave (param = frequency in Hz)
 % 'dirac':            Dirac signal (First sample 1, zeroes otherwise)
 % 'zero':             Zero signal ('silence')
+% 'burst':            Windowed sine bursts spaced 'T_pause' apart. Their frequencies are given by the vector 'frequencies'. Each one is 'num_cycles' sine cycles long and lasts 'num_cycles'/'fs'. 
+%                     See 
+%                     Shaped Tone-Burst Testing, SIEGFRIED LlNKWITZ,
+%                     JOURNAL OF THE AUDIO ENGINEERING SOCIETY, 1980 APRIL, VOLUME 28, NUMBER 4
 %
 % OUTPUT:
 % s: vector containing the signal samples (tha values in s can range from -1...+1)
@@ -46,7 +51,11 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % > [burst,t]=mataa_signal_generator('sin',96000,0.01,1000);
 % > burst = mataa_signal_window(burst,'hann');
 % > plot(t,burst)
-% 
+%
+% 4. Create a series of 20 discrete bursts between 10 Hz and 2 kHz, spaced 300ms apart:
+% > [burst, t] = mataa_signal_generator('burst', 48000, 0.3, logspace(log10(10),log10(2000), 20));
+% Also see mataa_octspace.
+%
 %
 % FURTHER READING:
 % - different kinds of noise: http://en.wikipedia.org/wiki/Colors_of_noise
@@ -71,6 +80,7 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param);
 % Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 % 
 % Copyright (C) 2006, 2007, 2008 Matthias S. Brennwald.
+% Copyright (C) 2020 Jens W. Wulf.
 % Contact: info@audioroot.net
 % Further information: http://www.audioroot.net/MATAA
 
@@ -196,18 +206,60 @@ switch kind
     case {'dirac'},
     	[s,t] = mataa_signal_generator('zero',fs,T);
     	s(1)=1;
+    case {'burst'},
+      if nargin < 4
+        error('Missing arguments.')
+      end
+      if nargin > 4
+        num_cycles = param2;
+      else
+        num_cycles = 5;
+      end
+      [s,t] = mataa_signal_generator_burst(fs, param, T, num_cycles);
     otherwise
         error('mataa_signal_generator: unknown signal kind.');
 end
 s = s(:); t = t(:); % make sure we've got column vectors
+end % of function
+
+
+function [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
+  % -- [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
+  %
+  %     fs: sampling rate
+  %     vf: vector of frequencies
+  %     tPause: duration of silence between bursts
+  %
+  %
+  % Copyright (C) 2020 Jens W. Wulf.
+  padding_level = mataa_settings('padding_level');
+  y = [];
+  t = [];
+  toff = 0;
+  for n=1:length(vf)
+    f = vf(n);
+    if n > 1
+      toff = t(end) + 1/fs;
+      anz = tPause * fs;
+      t = [t toff+1/fs*[0:anz-1]];
+      y = [y padding_level*ones(1,anz)];
+      toff = t(end) + 1/fs;
+    end
+    % f, fs
+    t_ = [0:1/fs:num_cycles/f];
+    y_ = sin(2*pi*t_*f) .* (0.5 - 0.5 * cos(2*pi*t_*f/num_cycles));
+    t = [t toff+t_]; 
+    y = [y y_];
+  end
+end
 
 
 %%%%%%   
 %%%%%%   pink = M_pinkNoise([N 1],-1);
 %%%%%%   
-%%%%%%   
-function x = M_pinkNoise(DIM,BETA),
-% function x = M_pinkNoise(DIM, BETA),
+%%%%%%
+function x = M_pinkNoise(DIM,BETA)
+% function x = M_pinkNoise(DIM, BETA)
 %
 % This function generates 1/f spatial noise, with a normal error 
 % distribution (the grid must be at least 10x10 for the errors to be normal). 
@@ -273,9 +325,7 @@ x = ifft2(S_f.^0.5 .* (cos(2*pi*phi)+i*sin(2*pi*phi)));
 
 % Pick just the real component
 x = real(x);
-
-
-
+end % of function
 
 
 
@@ -495,3 +545,6 @@ for i = (2^n)-1:-1:1
 	abuff = [xorbit abuff(1:n-1)];
 	y(i) = (-2 .* xorbit) + 1;  	%yields one's and negative one's (0 -> 1; 1 -> -1)
 end
+end % of function
+
+
