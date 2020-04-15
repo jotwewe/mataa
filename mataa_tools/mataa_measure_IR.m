@@ -1,6 +1,6 @@
-function [h,t,unit] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);
+function [h,t,unit,raw] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);
 
-% function [h,t,unit] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);
+% function [h,t,unit,raw] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);
 %
 % DESCRIPTION:
 % This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal (if no loopback is used) or the REF channel (with loopback). The allocation of the DUT (and REF) channel is determined using mataa_settings ('channel_DUT') (and mataa_settings ('channel_REF')).
@@ -18,6 +18,7 @@ function [h,t,unit] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,un
 % h: impulse response
 % t: time
 % unit: unit of data in h
+% raw: raw data (test signal, reference signal, response)
 %
 % EXAMPLE:
 %
@@ -62,11 +63,15 @@ else
 	channels = [ mataa_settings('channel_DUT') mataa_settings('channel_REF') ]; % use DUT and REF channel
 end
 
+raw.fs           = fs;
+raw.loopback     = loopback;
+raw.test_signal  = test_signal;
+raw.measurements = {};
+
 if length (channels) == 2
 	% dual channel output to DAC:
 	test_signal = [ test_signal(:) test_signal(:) ];
 end
-
 
 for i = 1:N
 
@@ -86,31 +91,27 @@ for i = 1:N
 		more ('off');
 	end
 		
-	l = length (in);
-	uu = flipud ([1:l]'/l);
-	
 	if ~loopback % no loopback calibration
 		disp ('Deconvolving data using raw test signal as reference (no loopback data available)...')
 		dut = out(:,1); dut_unit = out_unit{1};
-		ref = in; 	ref_unit = in_unit{1};
+                ref = in; 	ref_unit = in_unit{1};
+                if i == 1
+                  rawdata.ref = ref;
+                else
+                  rawdata = struct(); % without .ref from previous loop
+                end
+		rawdata.dut = dut;
 
 	else % use loopback / REF data
 		disp ('Deconvolving data using loopback signal as reference...')
 		dut = out(:,1); dut_unit = out_unit{1};
 		ref = out(:,2);	ref_unit = out_unit{2};
-		
+		rawdata.ref = ref;
+		rawdata.dut = dut;
 	end
-
-	dut = [ dut ; uu*dut(end) ];	
-	ref = [ ref ; uu*ref(end) ];		
-	H = fft(dut) ./ fft(ref) ; % normalize by 'ref' signal
-
-	H(1) = 0; % remove DC
-	
-	dummy = ifft (H);	
-	dummy = dummy(1:l); % the other half is redundant since the signal is real
-	dummy = abs (dummy) .* sign (real(dummy)); % turn it back to the real-axis (complex part is much smaller than real part, so this works fine)
-	
+        raw.measurements{length(raw.measurements)+1} = rawdata;
+        
+	dummy = mataa_calc_IR(ref, dut);
 	disp ('...deconvolution done.');
 	
 	if i == 1
