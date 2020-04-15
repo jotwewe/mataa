@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 07-Sep-2019.
+This section contains a list of the MATAA tools and their usage information as of 15-Apr-2020.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -50,7 +50,19 @@ EXAMPLE:@*
 > info.input      % shows information about the input device@*
 > info.output     % shows information about the output device@*
 
-determine computer OS platform:@*
+
+@findex mataa_build_TestTonePA19_oct
+@node mataa_build_TestTonePA19_oct
+@section mataa_build_TestTonePA19_oct
+
+file: ...mataa_tools/mataa_build_TestTonePA19_oct.m@*
+
+function mataa_build_TestTonePA19_oct@*
+
+DESCRIPTION:@*
+Call this function to build the oct file for mataa_playrecord_pa19, which enables@*
+fast audio output and input.@*
+
 
 @findex mataa_cal_autoscale
 @node mataa_cal_autoscale
@@ -63,6 +75,15 @@ function cal = mataa_cal_autoscale (c);@*
 DESCRIPTION:@*
 Execute the "autoscaling" function(s) for the ADC and DAC device(s) described by the calibration struct c, and return the ADC and DAC sensitivites in cal struct in the same format as with fixed/non-autoscaling calibration structs.@*
 
+
+@findex mataa_calc_IR
+@node mataa_calc_IR
+@section mataa_calc_IR
+
+file: ...mataa_tools/mataa_calc_IR.m@*
+
+function h = mataa_calc_IR(ref, dut)@*
+    Calculate impulse response 'h' from input signal 'ref' and output signal 'dut'.@*
 
 @findex mataa_computer
 @node mataa_computer
@@ -86,6 +107,15 @@ LINUX_X86-32:  Linux on x86 / 32 Bit platform@*
 LINUX_X86-64:  Linux on AMD / 64 Bit platform@*
 UNKNOWN:  unknown platform (unknown to MATAA)@*
 
+
+@findex mataa_convert_plotnames
+@node mataa_convert_plotnames
+@section mataa_convert_plotnames
+
+file: ...mataa_tools/mataa_convert_plotnames.m@*
+
+function strOut = mataa_convert_plotnames(strIn)@*
+    Replaces _ by \_, because usually filenames contain underscores, but not tex markup.@*
 
 @findex mataa_convolve
 @node mataa_convolve
@@ -169,24 +199,24 @@ Structurally, an FRD file is very simple. An * is placed in the first character 
 
 After the comment, the data block is composed of three numerical values per line separated by either one or more spaces or a tab. Each line is a single measurement or value instance. The numerical values, in order, per line, correspond to Frequency, Magnitude and Phase. The frequency data should start at the low end of the response and proceed to the higher end with no directional reversals or overlapping repeating regions in the frequency progression. That is all. It should look something like this:@*
 
-        @*
+
        * Seas T25-001.frd@*
        * Freq(Hz)  SPL(db)  Phase(deg)@*
        *@*
-       10        21.0963   158.4356 @*
-       10.1517   21.0967   158.4363 @*
-       10.3056   21.3305   158.7836 @*
-       10.4619   21.5644   159.1299 @*
-       10.6205   21.7983   159.2452 @*
-       10.7816   22.032     159.3599 @*
-       10.9451   22.2658   159.4099 @*
-       11.1111   22.4996   159.4597 @*
-       11.2796   22.7335   159.4832 @*
-       11.4507   22.9672   159.5065 @*
-       11.6243   23.2011   159.5171 @*
-       11.8006   23.4349   159.5276 @*
-       11.9795   23.6687   159.5308 @*
-       12.1612   23.9025   159.534 @*
+       10        21.0963   158.4356@*
+       10.1517   21.0967   158.4363@*
+       10.3056   21.3305   158.7836@*
+       10.4619   21.5644   159.1299@*
+       10.6205   21.7983   159.2452@*
+       10.7816   22.032     159.3599@*
+       10.9451   22.2658   159.4099@*
+       11.1111   22.4996   159.4597@*
+       11.2796   22.7335   159.4832@*
+       11.4507   22.9672   159.5065@*
+       11.6243   23.2011   159.5171@*
+       11.8006   23.4349   159.5276@*
+       11.9795   23.6687   159.5308@*
+       12.1612   23.9025   159.534@*
 
 The comment field mentioned above is sometimes required, even if the data in it is never used, or at least we have encountered programs that will not load the FRD file if the Comment field is not there. We have also found the opposite, programs that get confused about the comment field and work better if there was none. In general the comments are useful to the human reader and specific to the last program to output the data. So box modelers may have the conditions used to create the curve, like Vb, Driver name and T/S parameters, etc.@*
 
@@ -219,6 +249,15 @@ comment: string containing a comment to be saved with the data, e.g. a descripti
 OUTPUT:@*
 (none)@*
 
+
+@findex mataa_figname
+@node mataa_figname
+@section mataa_figname
+
+file: ...mataa_tools/mataa_figname.m@*
+
+function mataa_figname(num, strTitle)@*
+    Open a figure using figure(num) and set the window title@*
 
 @findex mataa_file_default_name
 @node mataa_file_default_name
@@ -256,7 +295,7 @@ f1, f2: [f1,f2] is the frequency range used to determine the offsets of the low-
 
 OUTPUT:@*
 mag, phase, f: magnitude (dB), phase (deg, unwrapped) and frequency (Hz) of the combined frequency response. The data with f > f2 are identical to (mh,ph,fh), those with f < f1 correspond to (ml,pl,fl) with the magnitude and phase offsets removed. The data in the range [f1,f2] corresponds to the combination of the data of both data sets.@*
- @*
+
 
 @findex mataa_FR_inbox_convert
 @node mataa_FR_inbox_convert
@@ -282,7 +321,6 @@ r (optional): distance used to calculate/normalize the free-field SPL level (in 
 OUTPUT:@*
 mag: free-field frequency response (magnitude in dB-SPL)@*
 
-check input arguments:@*
 
 @findex mataa_FR_smooth
 @node mataa_FR_smooth
@@ -307,12 +345,11 @@ phase: smoothed frequency response (phase)@*
 f: frequency values of smoothed frequency response data@*
 
 EXAMPLE:@*
-> [h,t] = mataa_IR_demo; @*
+> [h,t] = mataa_IR_demo;@*
 > [mag,phase,f] = mataa_IR_to_FR(h,t); % calculates magnitude(f) and phase(f)@*
 > [magS,phaseS,fS] = mataa_FR_smooth(mag,phase,f,1/4); % smooth to 1/4 octave resolution@*
 > semilogx ( f,mag , fS,magS ); % plot raw and smoothed data@*
 
-fractional octave between last and second-last data point:@*
 
 @findex mataa_f_to_t
 @node mataa_f_to_t
@@ -531,8 +568,6 @@ mag: magnitude values@*
 phase: phase@*
 comments: cell string containing the comments in the data file (if any)@*
 
-HISTORY:@*
-9. January 2008  (Matthias Brennwald): first version@*
 
 @findex mataa_import_mlssa
 @node mataa_import_mlssa
@@ -584,7 +619,26 @@ Comment 4:	The MLSSA files contain a large number of auxilliary parameters that 
 	the manual, this setup structure can be changed in future versions. This one is@*
 	valid for version 9.0.@*
 
-The program is based on code written by Peter Svensson (svensson[at]iet.ntnu.no) available at http://www.iet.ntnu.no/~svensson/readmls.m. Peter Svensson explicitly agreed to provide his work for inclusion in MATAA.@*
+
+@findex mataa_import_PIR
+@node mataa_import_PIR
+@section mataa_import_PIR
+
+file: ...mataa_tools/mataa_import_PIR.m@*
+
+function [t,s,info] = mataa_import_PIR (file);@*
+
+DESCRIPTION:@*
+Import time-domain data from a PIR file (binary ARTA data file).@*
+
+INPUT:@*
+file: string containing the name of the file containing the data to be imported. The string may contain a complete path. If no path is given, the file is assumed to be located in the current working directory.@*
+
+OUTPUT:@*
+t: time values (s)@*
+s: signal amplitude values@*
+info: data information (as described in ARTA manual, see also m-file code in this file)@*
+
 
 @findex mataa_import_TMD
 @node mataa_import_TMD
@@ -606,9 +660,6 @@ t: time values (s)@*
 s: signal samples@*
 comments: cell string containing the comments in the data file (if any)@*
 
-EXAMPLE:@*
-
-> [t,h,comments] = mataa_import_TMD ('scanspeaker_0deg_no_filter_tweeter.tmd',10);@*
 
 @findex mataa_interp
 @node mataa_interp
@@ -650,7 +701,7 @@ DIRAC: dirac impulse (first sample is 1, all others are zero), with a length of 
 EXP: exponential decay ( f(t) = exp(-t/tau), with tau=1E-2 seconds), with a length of 1 second, sampled at 44.1 kHz.@*
 
 DEFAULT: same as 'FE108'.@*
- @*
+
 OUTPUT:@*
 h: impulse response samples@*
 t: time coordinates of samples@*
@@ -677,7 +728,7 @@ t_echo_end: end time of echo@*
 OUTPUT:@*
 h: values impulse response with echo removed@*
 t: time values of samples in h@*
- @*
+
 
 @findex mataa_IR_to_CSD
 @node mataa_IR_to_CSD
@@ -700,7 +751,7 @@ OUTPUT:@*
 spl: CSD data (dB)@*
 f: frequency (Hz)@*
 d: delay of CSD data (seconds)@*
- @*
+
 EXAMPLE:@*
 [h,t] = mataa_IR_demo ('FE108');@*
 T = [0:1E-4:4E-3];@*
@@ -839,7 +890,7 @@ OUTPUT:@*
 A: amplitude envelope (dB, relative to max value)@*
 tau: dimensionless time value (time normalized by period of burst frequency)@*
 f: frequency values (same values as in input, useful for plotting TBES results)@*
- @*
+
 EXAMPLE:@*
 > [h,t] = mataa_IR_demo ('FE108');@*
 > f = logspace (2,4,50);@*
@@ -925,7 +976,7 @@ amplitude and unit (optional): amplitude and unit of test signal at DUT input (s
 window (optional): window function to be applied to the DUT response before calculating the spectrum (default: window = 'none'). See also mataa_signal_window(...). If the window function requires additional parameter, then window can be given as a struct with three fields corresponding to the mataa_signal_window(...) arguments as follows:@*
 window.name = 'window' input argument of mataa_signal_window(...)@*
 window.par  = 'par' input argument of mataa_signal_window(...)@*
-	window.len  = 'len' input argument of mataa_signal_window(...) @*
+	window.len  = 'len' input argument of mataa_signal_window(...)@*
 fLow,fHigh (optional): frequency bandwith of analysis (default: fLow = [], fHigh = []):@*
 - If fLow is not empty, only spectral data at frequencies larger or equal to fLow are used for the analysis.@*
 - If fHIgh is not empty, only spectral data at frequencies lower or equal to fHigh are used for the analysis.@*
@@ -988,7 +1039,7 @@ DAC-out -------+---------> ADC-in (REF)@*
 	       |@*
 DAC-GND -------+---------> ADC-GND@*
 
-Note that the current flowing through the reference resistor R is identical to the current flowing through the DUT at all times. This allows calculating the impedance of the DUT using Ohm's Law with the voltages observed at the ADC inputs of the REF and DUT channels. @*
+Note that the current flowing through the reference resistor R is identical to the current flowing through the DUT at all times. This allows calculating the impedance of the DUT using Ohm's Law with the voltages observed at the ADC inputs of the REF and DUT channels.@*
 
 INPUT:@*
 fLow: lower limit of the frequency range (Hz)@*
@@ -1013,7 +1064,6 @@ EXAMPLE 2 (similar to above, but without smoothing and using a sweep amplitude o
 subplot (2,1,1); semilogx (f,Zphase); ylabel ('Phase (deg.)')@*
 subplot (2,1,2); semilogx (f,Zmag); xlabel ('Frequency (Hz)'); ylabel ('Impedance (Ohm)')@*
 
-check arguments:@*
 
 @findex mataa_measure_IR_HD
 @node mataa_measure_IR_HD
@@ -1028,7 +1078,7 @@ Measures the impulse response and the harmonic distortion products using the "Fa
 The REF input channel is not used.@*
 
 REFERENCES:@*
-A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a Swept-Sine Technique”, presented at 108th AES Convention, Paris, France, Feb. 19-22, 2000. Paper 5093. @*
+A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a Swept-Sine Technique”, presented at 108th AES Convention, Paris, France, Feb. 19-22, 2000. Paper 5093.@*
 Ian H. Chan: "Swept Sine Chirps for Measuring Impulse Response", Technical Note, Stanford Research Systems, Inc, 2010. Available at http://www.thinksrs.com/downloads/PDFs/ApplicationNotes/SR1_SweptSine.pdf@*
 K. Vetter, S. di Rosario: "ExpoChirpToolbox: a Pure Data implementation of ESS impulse response measurement", Rotterdam/London, July 2011. Available at http://www.uni-weimar.de/medien/wiki/PDCON:Conference/Pure_Data_implementation_of_an_ESS-based_impulse_response_acoustic_measurement_tool. ExpoChirpToolbox page: http://www.katjaas.nl/expochirp/expochirp.html.@*
 
@@ -1073,7 +1123,7 @@ EXAMPLE:@*
 
 file: ...mataa_tools/mataa_measure_IR.m@*
 
-function [h,t,unit] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);@*
+function [h,t,unit,raw] = mataa_measure_IR (test_signal,fs,N,latency,loopback,cal,unit);@*
 
 DESCRIPTION:@*
 This function measures the impulse response h(t) of a system using sample rate fs. The sampling rate must be supported by the audio device and by the TestTone program. See also mataa_measure_signal_response. h(t) is determined from the deconvolution of the DUT's response and the original input signal (if no loopback is used) or the REF channel (with loopback). The allocation of the DUT (and REF) channel is determined using mataa_settings ('channel_DUT') (and mataa_settings ('channel_REF')).@*
@@ -1091,6 +1141,7 @@ OUTPUT:@*
 h: impulse response@*
 t: time@*
 unit: unit of data in h@*
+raw: raw data (test signal, reference signal, response)@*
 
 EXAMPLE:@*
 
@@ -1121,8 +1172,8 @@ verbose (optional): If verbose=0, no information or feedback is displayed. Other
 channels (optional): index to data channels obtained from the ADC that should be processed and returned. If not specified, all data channels are returned.@*
 cal (optional): calibration data for the full analysis chain DAC / SENSOR / ADC (see mataa_signal_calibrate_DUTin and mataa_signal_calibrate_DUTout for details). If different audio channels are used with different hardware (e.g., a microphone in the DUT channel and a loopback without microphone in the REF channel), separate structs describing the hardware of each channel can be provided in a cell array. If no cal is given or cal = [], the data will not be calibrated.@*
 X0_unit (optional): unit of test signal data in X0 (string):@*
-If unit = 'digital' (default): X0 signal is given in digital domain. The X0 values are sent to the DAC without any amplitude conversion. X0 values are allowed to range from -1 to +1, corresponding to the min. and max. value of the analog signal at the DAC output.@*
-If unit = unit of the sensitivity value specified in the cal data for the DAC analog output signal (e.g., unit = 'V': X0 signal is given in the physical units of the ; X0 reflects the signal voltage that is generated at the DAC output. The X0 voltages are converted to "digital domain values" using the DAC sensitivity given in the 'cal' data before the data is sent the DAC. X0 values are allowed to range from the min. to max. voltages that can be generated by the DAC output.@*
+    If unit = 'digital' (default): X0 signal is given in digital domain. The X0 values are sent to the DAC without any amplitude conversion. X0 values are allowed to range from -1 to +1, corresponding to the min. and max. value of the analog signal at the DAC output.@*
+    If unit = unit of the sensitivity value specified in the cal data for the DAC analog output signal (e.g., unit = 'V': X0 signal is given in the physical units of the ; X0 reflects the signal voltage that is generated at the DAC output. The X0 voltages are converted to "digital domain values" using the DAC sensitivity given in the 'cal' data before the data is sent the DAC. X0 values are allowed to range from the min. to max. voltages that can be generated by the DAC output.@*
 
 OUTPUT:@*
 dut_out: matrix containing the signal(s) at the DUT output(s) / SENSOR input(s) (all channels used for signal recording, each colum corresponds to one channel). If SENSOR and ADC cal data are available, these data are calibrated for the input sensitivity of the SENSOR and ADC.@*
@@ -1136,7 +1187,7 @@ X0_RMS: RMS amplitude of signal at DUT input / DAC(+BUFFER) output (same unit as
 NOTES:@*
 
 (1) As a general rule, the number of DAC channels (X0) and the number of ADC channels ('channels' index) must be the same:@*
-* In many situations the optional 'channels' index for the ADC channels can be omitted or left empty (channels=[]). The index will then be set automatically to channels = [1:size(X0,2)] (i.e., the ADC channel numbers correspond to the DAC channel numbers). @*
+* In many situations the optional 'channels' index for the ADC channels can be omitted or left empty (channels=[]). The index will then be set automatically to channels = [1:size(X0,2)] (i.e., the ADC channel numbers correspond to the DAC channel numbers).@*
 * Some audio interfaces have more ADC channels than DAC channels, so it is necessary to explicitly specify which ADC channels are used. Example for an audio interface with 2 DACs and 4 ADCs: using X0 with two channels (size(X0,2)=2) requires two ADC channels. If channels = [], ADC channels 1 and 2 will be used automatically. To use ADC channels 3 and 4 instead, set channels=[3,4].@*
 * If cal data is specified, each channel needs its own cal data, so length(cal) = size(X0,2). If cal is not specified, the cal data for each channel will be set to cal{k}=[], and the data will remain uncalibrated.@*
 
@@ -1160,7 +1211,6 @@ EXAMPLES:@*
 > subplot (2,1,2); plot (t,out); ylabel (sprintf('Signal at DUT output (%s)',out_unit));@*
 > xlabel ('Time (s)')@*
 
-check input@*
 
 @findex mataa_measure_sine_distortion
 @node mataa_measure_sine_distortion
@@ -1183,7 +1233,7 @@ amplitude and unit (optional): amplitude and unit of test signal at DUT input (s
 window (optional): window function to be applied to the DUT response before calculating the spectrum (default: window = 'none'). See also mataa_signal_window(...). If the window function requires additional parameter, then window can be given as a struct with three fields corresponding to the mataa_signal_window(...) arguments as follows:@*
 window.name = 'window' input argument of mataa_signal_window(...)@*
 window.par  = 'par' input argument of mataa_signal_window(...)@*
-	window.len  = 'len' input argument of mataa_signal_window(...) @*
+	window.len  = 'len' input argument of mataa_signal_window(...)@*
 N_avg (optional): number of averages (integer, default: N_avg = 1). If N_avg > 1, the measurement is repeated N_avg times, and the mean result is returned. This is useful to reduce the noise floor.@*
 
 OUTPUT:@*
@@ -1226,8 +1276,8 @@ The result will look like this:@*
 -----------@*
     Main menu:@*
     [m] measure  --  [p] plot  --  [s] save  --  [e] exit@*
-    @*
-    Choose a command: @*
+
+    Choose a command:@*
 -----------@*
 The user then chooses one of the four commands by entering 'm', 'p', 's' or 'e'. If he/she enteres something else, an error message will be shown, and the menu is displayed again.@*
 
@@ -1251,11 +1301,6 @@ f: frequency coordinates of mag (in Hz)@*
 OUTPUT:@*
 min_phase: minimum phase at frequnecies f (unwrapped, in degrees)@*
 
-%%    % calculate minimum phase using the Hilbert transform:@*
-%%    % see: http://www.fourelectronics.com/Hilbert-transform-to-calculate-Magnitude-from-Phase-10052397.html@*
-%%    % and: http://www.dsprelated.com/showmessage/29416/1.php@*
-%%    % this should use the NATURAL log, and 'abs(p)' rather than '10*abs(p)'!@*
-convert mag from dB to natural units:@*
 
 @findex mataa_octave_version
 @node mataa_octave_version
@@ -1282,6 +1327,16 @@ version = 2@*
 subversion = 1@*
 subsubversion = 73@*
 
+
+@findex mataa_octspace
+@node mataa_octspace
+@section mataa_octspace
+
+file: ...mataa_tools/mataa_octspace.m@*
+
+function spaced_freqs = mataa_octspace(fmin, fmax, per_oct)@*
+    Returns a vector of frequencies between fmin and fmax@*
+    with per_oct items per octave.@*
 
 @findex mataa_path
 @node mataa_path
@@ -1399,27 +1454,6 @@ function mataa_plot_defaults@*
 DESCRIPTION:@*
 In earlier version of MATAA, this function sets default gnuplot state for MATAA plots in Octave. With the current version of MATAA, this function has no effect.@*
 
-HISTORY:@*
-26. December 2007 (Matthias Brennwald): commented out all commands so they have no effect anymore. Leave setting of plotting options to the user.@*
-first version: 7. November 2006, Matthias Brennwald@*
-%% if exist('OCTAVE_VERSION')@*
-%%     % do Octave specific stuff here@*
-%% else@*
-%%     % do Matlab specific stuff here@*
-%%     %%% fh = gcf;@*
-%%     %%% p = get(fh,'Position');@*
-%%     %%% if p([3,4]) == [560   420];@*
-%%     %%%     % make plots somewhat smaller than default@*
-%%     %%%     p([3,4]) = [450   280];@*
-%%     %%%     set(fh,'Position',p); @*
-%%     %%% end@*
-%%     %%% set(fh,'PaperPositionMode','auto'); % use same plot size for saving files as for plotting on screen@*
-%% end@*
-%% if mataa_settings('plotHoldState')@*
-%%     hold on@*
-%% end@*
-%% @*
-%% % otherwise leave the plot state as it is (the user may have typed 'hold on' or something@*
 
 @findex mataa_plot_ETC_dB
 @node mataa_plot_ETC_dB
@@ -1479,7 +1513,7 @@ fNorm (optional): frequency to which the magnitude plot is normalised. If you do
 phaseUnwrap (optional): if phaseUnwrap is not zero, the phase is unwraped (so that discontinuities at +/- 180 deg. are avoided). Otherwise, phase is wrapped to +/- 180 deg.@*
 
 EXAMPLE(S):@*
-> [h,t] = mataa_IR_demo; @*
+> [h,t] = mataa_IR_demo;@*
 > [mag,phase,f] = mataa_IR_to_FR(h,t,1/12);@*
 > mataa_plot_FR(mag,[],f); % plain vanilla plot of magnitude vs. frequency (without phase)@*
 > mataa_plot_FR(mag,[],f,'demo',1000); % plots magnitude with an annotation to the plot title and normalizes mag by mag(f=1000).@*
@@ -1503,8 +1537,8 @@ k1 corresponds to the fundamental frequency or first harmonic (k1 = 1, not plott
 annote (optional): optional annotation to be added to the plot title@*
 
 EXAMPLE:@*
-> [thd,k] = mataa_measure_thd(1000,1,96000); % measure THD and harmonic distortion spectrum@*
-> mataa_plot_HD(k,'f0: 1kHz'); % plot the distortion spectrum@*
+> HD = mataa_measure_HD_noise ( 1000,1,44100,10,0.2 ); % measure harmonic distortion spectrum@*
+> mataa_plot_HD(HD(1,:),'f0: 1kHz'); % plot the distortion spectrum@*
 
 
 @findex mataa_plot_impedance
@@ -1813,7 +1847,6 @@ OUTPUT:@*
 t_start: start of selected signal range@*
 t_end: end of selected signal range@*
 
-input('Make shure that the window showing the signal-plot is active, and the zoom is set accordingly (press ENTER to confirm)...')@*
 
 @findex mataa_settings
 @node mataa_settings
@@ -1868,7 +1901,7 @@ calculate the amplitude envelope of the impulse response of a loudspeaker@*
 > a = mataa_signal_analytic(h); % calculate analytic response@*
 > a = abs(a);                   % abs(a) is the amplitude envelope of impulse response@*
 > plot(t,a);@*
- @*
+
 
 @findex mataa_signal_autocorr
 @node mataa_signal_autocorr
@@ -1979,7 +2012,6 @@ Feed a 1 kHz sine-wave signal to the DUT and measure the raw response signal wit
 > subplot (2,1,2); plot (t_Y,Y); ylabel (sprintf('Signal at DUT output (%s)',unit_Y));@*
 > xlabel ('Time (s)')@*
 
-helper function for calibration of various units@*
 
 @findex mataa_signal_clipcheck
 @node mataa_signal_clipcheck
@@ -2040,7 +2072,8 @@ t: time coordinates of cropped signal (in seconds)@*
 
 file: ...mataa_tools/mataa_signal_generator.m@*
 
-function [s,t,info] = mataa_signal_generator (kind,fs,T,param);@*
+function [s,t,info] = mataa_signal_generator (kind, fs, T, param)@*
+function [s,t,info] = mataa_signal_generator ('burst', fs, T_pause, frequencies, num_cycles)@*
 
 DESCRIPTION:@*
 This function creates a signal s(t) of a specified type.@*
@@ -2067,6 +2100,10 @@ kind can be one of the following:@*
 'triangle','tri':   Triangle wave (param = frequency in Hz)@*
 'dirac':            Dirac signal (First sample 1, zeroes otherwise)@*
 'zero':             Zero signal ('silence')@*
+'burst':            Windowed sine bursts spaced 'T_pause' apart. Their frequencies are given by the vector 'frequencies'. Each one is 'num_cycles' sine cycles long and lasts 'num_cycles'/'fs'.@*
+                    See@*
+                    Shaped Tone-Burst Testing, SIEGFRIED LlNKWITZ,@*
+                    JOURNAL OF THE AUDIO ENGINEERING SOCIETY, 1980 APRIL, VOLUME 28, NUMBER 4@*
 
 OUTPUT:@*
 s: vector containing the signal samples (tha values in s can range from -1...+1)@*
@@ -2086,6 +2123,10 @@ Examples:@*
 > [burst,t]=mataa_signal_generator('sin',96000,0.01,1000);@*
 > burst = mataa_signal_window(burst,'hann');@*
 > plot(t,burst)@*
+
+4. Create a series of 20 discrete bursts between 10 Hz and 2 kHz, spaced 300ms apart:@*
+> [burst, t] = mataa_signal_generator('burst', 48000, 0.3, logspace(log10(10),log10(2000), 20));@*
+Also see mataa_octspace.@*
 
 
 FURTHER READING:@*
@@ -2182,7 +2223,7 @@ s3     = s1+s2;@*
 subplot (3,1,1); surf (T1,F1/1000,M1); shading interp; view (0,90); ylabel ('Frequency (kHz)');@*
 subplot (3,1,2); surf (T2,F2/1000,M2); shading interp; view (0,90); ylabel ('Frequency (kHz)');@*
 subplot (3,1,3); surf (T3,F3/1000,M3); shading interp; view (0,90); xlabel ('Time (s)'); ylabel ('Frequency (kHz)');@*
- @*
+
 
 @findex mataa_signal_to_TestToneFile
 @node mataa_signal_to_TestToneFile
@@ -2211,7 +2252,6 @@ NOTE 1: TestTone assumes that all information regarding the sample rate / time i
 
 NOTE 2: the data in s should be padded with zeros at the beginning and the end of the signal to avoid problems with sound-I/O latency. If s does not include zeros at the beginning and the end, use the zeroTime option.@*
 
-check format of input data:@*
 
 @findex mataa_signal_window
 @node mataa_signal_window
@@ -2295,7 +2335,7 @@ Sd: Projected area of the driver diaphragm (cm²)@*
 
 EXAMPLE (measured driver resonance at fs = 46.1 Hz, fsM = 21.9 Hz with added mass M = 166 g, cone diameter with 1/2 surround on both sides D = 25.0 cm):@*
 > [Vas,Cms,Mms,Sd] = mataa_speaker_TSP_addmass (46.1,21.9,166,25.0);@*
- @*
+
 
 @findex mataa_tempfile
 @node mataa_tempfile
@@ -2350,6 +2390,198 @@ INPUT:@*
 OUTPUT:@*
 (see mataa_to_f0).@*
 
+
+@findex raa_align
+@node raa_align
+@section raa_align
+
+file: ...mataa_tools/raa_align.m@*
+
+function raa_align(strFile)@*
+    Load strFile. In case of measurements to be averaged: calculate@*
+    time offsets, display measurements, save time offsets back to@*
+    strFile in case the user wants to.@*
+
+@findex raa_calc_IR
+@node raa_calc_IR
+@section raa_calc_IR
+
+file: ...mataa_tools/raa_calc_IR.m@*
+
+function cIR = raa_calc_IR(cellarray_or_one_measurement)@*
+    Calculate impulse responses of one or more measurements@*
+
+@findex raa_info
+@node raa_info
+@section raa_info
+
+file: ...mataa_tools/raa_info.m@*
+
+function raa_info(cellarray_or_one_measurement)@*
+    Show information about one or more measurements created with raa_measure_speaker@*
+
+@findex raa_load
+@node raa_load
+@section raa_load
+
+file: ...mataa_tools/raa_load.m@*
+
+function res = raa_load(strFilename, cal=[])@*
+    Load measurement(s) from file and attach calibration information.@*
+
+@findex raa_measure_speaker
+@node raa_measure_speaker
+@section raa_measure_speaker
+
+file: ...mataa_tools/raa_measure_speaker.m@*
+
+function res = raa_measure_speaker(testsignals, fs, strName='', cTags={}, RRef=0,@*
+                             loopback=1, nrepeat=1, firstfigure=1)@*
+
+    Measure frequency response (and optionally impedance) of a speaker or@*
+    something else, return results and save them to disk.@*
+
+
+    Because levels may need adjustment or one may not be satisfied with every@*
+    measurement, results are plotted after each measurement and the user is asked@*
+    whether this measurement should be saved and the next should start.@*
+
+    Things to watch out for:@*
+      - clipped signals (reduce input volume)@*
+      - truncated signals (increase padding_duration or padding_level with mataa_settings)@*
+      - distorted signals (reduce output level or microphone amplification)@*
+      - switched between impedance and frequency response?@*
+
+    Arguments:@*
+
+    testsignals: signal to output; cell array of vectors@*
+    fs         : sampling rate to use@*
+    strName    : name to assign to this group of measurements. They will be saved to@*
+                 a file ['raa_' strName '.mat']@*
+    cTags      : cell array; any number of strings to tag these measurements with.@*
+                 Other raa_ - functions do special treatment for those tags:@*
+                   MIB  : microphone-in-box-measurement@*
+    RRef       : value of reference resistor R according to the schematic shown in@*
+                 mataa_measure_impedance. There will be no impedance measurement if@*
+                 this value is smaller or equal to zero.@*
+    loopback   : see mataa_measure_IR@*
+    nrepeat    : how often to repeat every measurement for averaging, see N at mataa_measure_IR@*
+    firstfigure: some figures will be plotted to enable a first evaluation of the measurement,@*
+                 starting at figure number firstfigure.@*
+
+@findex raa_plot_FR
+@node raa_plot_FR
+@section raa_plot_FR
+
+file: ...mataa_tools/raa_plot_FR.m@*
+
+function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1)@*
+
+    Plot frequency response@*
+
+
+    'fixed_at' can be a vector with two elements [frequency magnitude]@*
+    where all responses will be shifted to.@*
+
+    If a measurement contains 'MIB' in its 'tags' structure field (cell@*
+    array of strings) the measurement is assumed to be of "microphone in box"@*
+    type and the magnitude will be corrected accordingly. See@*
+
+      R. H. Small, "Simplified Loudspeaker Measurements at Low Frequencies,"@*
+      I. Audio Eng. Soc., vol. 20, pp. 28-33 (Jan./Feb. 1972).@*
+
+    and@*
+
+     - Measuring Loudspeaker Low-Frequency Response@*
+       Joe D'Appolito@*
+       audioxpress 2018@*
+       https://audioxpress.com/article/measuring-loudspeaker-low-frequency-response@*
+     - Measuring Loudspeaker Low-Frequency Response@*
+       Joe D'Appolito@*
+       http://www.audiomatica.com/wp/wp-content/uploads/Testing-Loudspeakers-at-low-Frequencies-with-CLIO.pdf@*
+       This differs from the audioxpress article above!@*
+     - Low-Frequency Loudspeaker Assessment by Nearfield Sound-Pressure Measurement@*
+       D. B. KEELE, JR@*
+       JOURNAL OF THE AUDIO ENGINEERING SOCIETY, APRIL 1974, VOLUME 22, NUMBER 3@*
+
+@findex raa_plot_imp
+@node raa_plot_imp
+@section raa_plot_imp
+
+file: ...mataa_tools/raa_plot_imp.m@*
+
+function raa_plot_FR(cMeas)@*
+
+    Plot speaker impedance@*
+
+@findex raa_plot_time_dB
+@node raa_plot_time_dB
+@section raa_plot_time_dB
+
+file: ...mataa_tools/raa_plot_time_dB.m@*
+
+function raa_plot_time_dB(cellarray_or_one_measurement)@*
+    Average burst measurement(s) and display them,@*
+    see@*
+    Shaped Tone-Burst Testing, SIEGFRIED LlNKWITZ,@*
+    JOURNAL OF THE AUDIO ENGINEERING SOCIETY, 1980 APRIL, VOLUME 28, NUMBER 4@*
+
+@findex raa_propagate_meta
+@node raa_propagate_meta
+@section raa_propagate_meta
+
+file: ...mataa_tools/raa_propagate_meta.m@*
+
+function data = raa_propagate_meta(data, in)@*
+    Propagates some structure fields from in to data.@*
+
+@findex raa_sum_IR_nearfield
+@node raa_sum_IR_nearfield
+@section raa_sum_IR_nearfield
+
+file: ...mataa_tools/raa_sum_IR_nearfield.m@*
+
+function ir = raa_sum_IR_nearfield(IR_1, S_1, IR_2, S_2, ..)@*
+
+    Sum impulse responses acquired by near field measurements.@*
+
+
+    The function expects an even number of arguments in pairs of@*
+    impulse response (a struct with fields 'h' -- impulse response@*
+    and 'fs' -- sampling rate) and effective area of port or driver.@*
+    The unit of all those areas has to be the same, but does not@*
+    matter otherwise.@*
+
+    Method and weighting:@*
+     - Low-Frequency Loudspeaker Assessment by Nearfield Sound-Pressure Measurement@*
+       D. B. KEELE, JR@*
+       JOURNAL OF THE AUDIO ENGINEERING SOCIETY, APRIL 1974, VOLUME 22, NUMBER 3@*
+       -> proportional to radius@*
+     - Simulated Free Field Measurements@*
+       CHRISTOPHER J. STRUCK, STEVE F. TEMME@*
+       J. AudioEng. Soc., Vol. 42, No.6, 1994 June@*
+       -> explicitly notes: sum of all port areas should be used@*
+     - Measuring Loudspeaker Low-Frequency Response@*
+       Joe D'Appolito@*
+       audioxpress 2018@*
+       https://audioxpress.com/article/measuring-loudspeaker-low-frequency-response@*
+       -> weight every port/piston with its diameter or square root of its area@*
+     - Measuring Loudspeaker Low-Frequency Response@*
+       Joe D'Appolito@*
+       http://www.audiomatica.com/wp/wp-content/uploads/Testing-Loudspeakers-at-low-Frequencies-with-CLIO.pdf@*
+       This partly differs from the audioxpress article above.@*
+       -> weight every port/piston with its diameter or square root of its area@*
+     - AN 38, Near Field Measurement of Systems with Multiple Drivers and Ports@*
+       Application Note to the KLIPPEL R&D SYSTEM@*
+       Klippel GmbH@*
+       -> weight every port/piston with square root of its area@*
+
+    For a vented box with two identical ports, what's the right way to do it?@*
+    Obviously 2*sqrt(1) > sqrt(2), so@*
+    raa_sum_IR_nearfield(ir_driver, S_driver, ir_port, S_port, ir_port, S_port) > raa_sum_IR_nearfield(ir_driver, S_driver, ir_port, 2*S_port)@*
+
+    The smaller result matches a microphone-in-box-measurement the author@*
+    made and is according to Struck/Temme above, but different from the others.@*
 
 
 

@@ -16,3 +16,36 @@ Information on the MATAA commands is available in the @ref{MATAA tools reference
 
 For a few worked examples on how to use MATAA in real-world applications, please refer to the MATAA article published in audioXpress (``MATAA: A Free Computer-Based Audio Analysis System'', included with the MATAA package).
 
+@node raa-style functions
+@section raa-style functions
+
+This section is not finished yet.
+
+Functions prefixed with raa ("raw audio analyzer") are centered around
+structured data which preserves raw information and metadata in order
+to ease measurement and archival, and process those data later on.
+Furthermore, most of those functions allow processing/displaying several
+measurements at once.
+
+todo: usage example explained
+
+todo: more examples
+
+@example
+fs=48000;
+RRef=18/3;
+ts.sweep = mataa_signal_generator('sweep', fs, 3, [10 2000]);
+ts.mls14 = mataa_signal_generator('MLS', fs, 0, 14);
+ts.burst = mataa_signal_generator('burst', fs, 0.3, 
+                                  mataa_octspace(300, 1000, 4));
+res = raa_measure_speaker(@{ts.sweep ts.mls14 ts.burst@},
+                          fs, 'test1', @{@}, RRef);
+...
+
+cal = mataa_load_calibration('TS472_mod1.txt');
+a = raa_load('raa_test1.mat', cal);
+b = raa_load('raa_test2.mat', cal);
+ir = raa_calc_IR(@{a b@});
+raa_plot_FR(ir)
+@end example
+
