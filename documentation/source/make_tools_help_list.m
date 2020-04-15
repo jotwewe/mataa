@@ -40,14 +40,18 @@ while doReadList
         if lTool == -1
           doReadTool = 0;
         else
-          if length(lTool) > 0 % otherwise the next line might fail
+          lTool = strtrim(lTool);
+          if length(lTool) == 0
+            if header == 0
+              % Empty line ends doc
+              break;
+            end
+          else
             if strcmp(lTool(1),'%') ~= 0
               header = 0; % we are not in the header anymore
               
               if findstr('DISCLAIMER',lTool)
-                for i=1:20 % skip disclaimer, license and copyright info
-                  fgetl(fid_tool);
-                end
+                break; % skip the rest (disclaimer, license and copyright info)
               else
                 line = lTool(3:end);
                 if length(line) > 0
