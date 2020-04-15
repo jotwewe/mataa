@@ -67,7 +67,10 @@ if u
 	audioInfo.output = audioInfo.input;
 	
 else
-	
+	if exist('mataa_playrecord_pa19')
+		audioInfo = mataa_playrecord_pa19();
+		return
+	end	
 	
 	switch plat
 	 case {'MAC','PCWIN','LINUX_X86-32','LINUX_X86-64','LINUX_PPC','LINUX_ARM_GNUEABIHF'}

@@ -13,7 +13,7 @@
 @copying
 
 @cindex Copyright
-Copyright @copyright{} 2006, 2007 Matthias Brennwald (@email{@value{CONTACT-EMAIL}})
+Copyright @copyright{} 2006, 2007 Matthias Brennwald (@email{@value{CONTACT-EMAIL}}) and contributors
 
 @cindex Terms and Conditions
 MATAA is free software; you can redistribute it and/or modify

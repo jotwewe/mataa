@@ -185,7 +185,10 @@ A few notes:
 
 @item The Mac OS X versions of TestTone and TestDevices rely on CoreAudio, Apples application programming interface for sound on Mac OS X. CoreAudio provides automatic sample-rate conversion. It is therefore possible to use sample rates with MATAA that are not directly supported by the hardware.
 
-@item The Linx versions of TestTone and TestDevices are available for Linux running on Intel and PowerPC machines. If you need to compile your own binaries using the source code included in the MATAA distribution, see @ref{Compiling TestTone and TestDevices on Linux}.
+@anchor{octave_alsa_playrecord}
+@item On systems using Octave and ALSA (read: the average Linux system), MATAA provides a soundcard interface which is way faster than the TestTone implementations. After successfully running @command{mataa_build_TestTonePA19_oct} from Octave it should be ready to use.
+
+@item The Linux versions of TestTone and TestDevices are available for Linux running on Intel and PowerPC machines. If you need to compile your own binaries using the source code included in the MATAA distribution, see @ref{Compiling TestTone and TestDevices on Linux}.
 
 @end itemize
 
@@ -305,6 +308,8 @@ Without this file, the default device on this system is set to something that th
 @cindex PortAudio
 @cindex Linux
 @section Compiling TestTone and TestDevices on Linux
+On a system using Octave and ALSA (read: the average Linux system) there is a fast alternative to TestTone and TestDevices, see @ref{octave_alsa_playrecord,,here}.
+
 Note that the precompiled binaries will run on most computers and Linux distributions. However, if you need to compile TestTone and TestDevices on Linux, please follow the instructions in the README that comes with the source code of TestTone and TestDevices. 
 
 @node Testing the Installation
