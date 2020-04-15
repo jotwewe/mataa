@@ -217,10 +217,10 @@ By default, MATAA uses the left channel to record the test signal from the DUT, 
 
 @float Figure,fig:jack
 @iftex
-@image{figures/jack,4in,,3.5 mm jack pinout}
+@image{figures/Jack,4in,,3.5 mm jack pinout}
 @end iftex
 @ifnottex
-@image{figures/jack,,,3.5 mm jack pinout}
+@image{figures/Jack,,,3.5 mm jack pinout}
 @end ifnottex
 @caption{Pinout of 3.5 mm jack}
 @end float
