@@ -1,11 +1,13 @@
-function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1)
-  % function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1)
+function H = raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1,smooth_interval=-1)
+  % function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1,smooth_interval=-1)
   %
   %     Plot frequency response
   %
   %
-  %     'fixed_at' can be a vector with two elements [frequency magnitude]
-  %     where all responses will be shifted to.
+  %     'fixed_at' can be [], or a vector with one element [frequency] or two 
+  %     elements [frequency magnitude] where all responses will be shifted to.
+  % 
+  %     smooth_interval: width of octave band used for smoothing
   %
   %     If a measurement contains 'MIB' in its 'tags' structure field (cell 
   %     array of strings) the measurement is assumed to be of "microphone in box" 
@@ -39,13 +41,17 @@ function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1)
   cFR = {};
   lw = mataa_settings('plot_linewidth');
     
-  mataa_figname(firstfigurenum+0, 'mag');
+  H = mataa_figname(firstfigurenum+0, 'mag');
   cLegend = {};
   clf
   hold on  
   for i1=1:length(cIR)
     m = cIR{i1};
     [fr.mag,fr.phase,fr.f] = mataa_IR_to_FR(m.h, m.fs);
+    
+    if smooth_interval > 0
+      [fr.mag, fr.phase, fr.f] = mataa_FR_smooth(fr.mag, fr.phase, fr.f, smooth_interval);
+    end
 
     if isfield(m, 'cal') && isfield(m.cal, 'SENSOR')
       fr.mag   -= interp1(m.cal.SENSOR.transfer.f, m.cal.SENSOR.transfer.gain,  fr.f);
@@ -57,10 +63,13 @@ function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1)
       fr.mag += 40*log(fr.f/f0)/log(10);
     end      
 
-    if length(fixed_at) > 0
-      off = fixed_at(2) - interp1(fr.f, fr.mag, fixed_at(1));
-    else
-      off = 0;
+    switch length(fixed_at)
+      case 2
+        off = fixed_at(2) - interp1(fr.f, fr.mag, fixed_at(1));
+      case 1
+        off = 0 - interp1(fr.f, fr.mag, fixed_at(1));
+      otherwise
+        off = 0;
     end
     
     semilogx(fr.f, fr.mag+off, 'linewidth', lw);
