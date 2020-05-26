@@ -49,3 +49,4 @@ ir = raa_calc_IR(@{a b@});
 raa_plot_FR(ir)
 @end example
 
+See @uref{http://www.jwwulf.de/de/lautsprecher/} for some more examples (sorry, german only).

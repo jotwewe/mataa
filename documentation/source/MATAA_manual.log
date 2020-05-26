@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdfetex 2018.9.21)  15 APR 2020 11:20
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016/Debian) (preloaded format=pdfetex 2018.9.21)  26 MAY 2020 22:15
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -535,20 +535,41 @@ box page:
 .etc.
 
 [43]
-Overfull \hbox (82.80963pt too wide) in paragraph at lines 1103--1118
-[]@texttt > @textrm [h,t,tN,unit] = mataa[]measure[]IR[]HD (P,T,fs,N,[],'GENERI
-C[]CHAIN[]ACOUSTIC.txt',amplitude,'Volt');|
+Overfull \hbox (16.31586pt too wide) in paragraph at lines 1110--1119
+[]@texttt > @textrm h = mataa[]measure[]IR[]HD (8,3,96000,3,1/300,[],'MB[]ACOUS
+TIC[]CHAIN[]DUT.txt',1,'V');|
 
 @hbox(8.2125+2.73749)x433.62, glue set - 1.0
 .@hbox(0.0+0.0)x0.0
 .@texttt >
 .@glue 3.65 plus 1.825 minus 1.21666
-.@textrm [
 .@textrm h
+.@glue 3.65 plus 1.825 minus 1.21666
+.etc.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1110--1119
+
+
+@hbox(0.0+0.0)x433.62
+.@penalty -10000
+.@glue(@rightskip) 0.0
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1110--1119
+[]@texttt > @textrm semilogx (h(1).f,h(1).mag,'k-;Fundamental;' , h(2).f,h(2).m
+ag,'b-;2nd;' ,
+
+@hbox(8.2125+2.73749)x433.62, glue set 7.27998
+.@hbox(0.0+0.0)x0.0
+.@texttt >
+.@glue 3.65 plus 1.825 minus 1.21666
+.@textrm s
+.@textrm e
 .etc.
 
 [44] [45] [46] [47]
-Overfull \hbox (125.57103pt too wide) in paragraph at lines 1206--1213
+Overfull \hbox (125.57103pt too wide) in paragraph at lines 1207--1214
 []@texttt > @textrm [out,in,t,out[]unit,in[]unit] = mataa[]measure[]signal[]res
 ponse(1.8*s,fs,0.1,1,1,'GENERIC[]CHAIN[]DIRECT.txt','V');|
 
@@ -561,7 +582,7 @@ ponse(1.8*s,fs,0.1,1,1,'GENERIC[]CHAIN[]DIRECT.txt','V');|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1206--1213
+Underfull \hbox (badness 10000) in paragraph at lines 1207--1214
 
 
 @hbox(0.0+0.0)x433.62
@@ -569,7 +590,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1206--1213
 .@glue(@rightskip) 0.0
 
 
-Overfull \hbox (75.66594pt too wide) in paragraph at lines 1221--1222
+Overfull \hbox (75.66594pt too wide) in paragraph at lines 1222--1223
 []@textrm function [L,f,fi,L0,unit] = mataa[]measure[]sine[]distortion (fi,T,fs
 ,latency,cal,amplitude,unit,window,N[]avg);|
 
@@ -582,7 +603,7 @@ Overfull \hbox (75.66594pt too wide) in paragraph at lines 1221--1222
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1221--1222
+Underfull \hbox (badness 10000) in paragraph at lines 1222--1223
 
 
 @hbox(0.0+0.0)x433.62
@@ -590,7 +611,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1221--1222
 .@glue(@rightskip) 0.0
 
 [48]
-Overfull \hbox (137.04388pt too wide) in paragraph at lines 1246--1249
+Overfull \hbox (137.04388pt too wide) in paragraph at lines 1247--1250
 []@texttt > @textrm [L,f,fi,L0,unit] = mataa[]measure[]sine[]distortion (1000,1
 ,44100,0.2,'GENERIC[]CHAIN[]DIRECT.txt',1.0,'V','flattop');|
 
@@ -603,7 +624,7 @@ Overfull \hbox (137.04388pt too wide) in paragraph at lines 1246--1249
 .etc.
 
 [49]
-Overfull \hbox (90.24208pt too wide) in paragraph at lines 1293--1295
+Overfull \hbox (90.24208pt too wide) in paragraph at lines 1294--1296
 @textrm (see http://en.wikipedia.org/wiki/Minimum[]phase#Relationship[]of[]magn
 itude[]response[]to[]phase[]response).|
 
@@ -616,7 +637,7 @@ itude[]response[]to[]phase[]response).|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1293--1295
+Underfull \hbox (badness 10000) in paragraph at lines 1294--1296
 
 
 @hbox(0.0+0.0)x433.62
@@ -624,7 +645,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1293--1295
 .@glue(@rightskip) 0.0
 
 [50] [51] [52] [53] [54] [55] [56] [57] [58] [59] [60] [61] [62] [63]
-Overfull \hbox (3.11215pt too wide) in paragraph at lines 1958--1968
+Overfull \hbox (3.11215pt too wide) in paragraph at lines 1959--1969
 []@texttt > @textrm [X,t[]X,unit[]X] = mataa[]signal[]calibrate[]DUTin (in,t,'G
 ENERIC[]CHAIN[]DIRECT.txt');|
 
@@ -637,7 +658,7 @@ ENERIC[]CHAIN[]DIRECT.txt');|
 .etc.
 
 
-Overfull \hbox (15.583pt too wide) in paragraph at lines 1958--1968
+Overfull \hbox (15.583pt too wide) in paragraph at lines 1959--1969
 []@texttt > @textrm [Y,t[]Y,unit[]Y] = mataa[]signal[]calibrate[]DUTout (out,t,
 'GENERIC[]CHAIN[]DIRECT.txt');|
 
@@ -650,7 +671,7 @@ Overfull \hbox (15.583pt too wide) in paragraph at lines 1958--1968
 .etc.
 
 [64] [65]
-Overfull \hbox (3.11215pt too wide) in paragraph at lines 2005--2014
+Overfull \hbox (3.11215pt too wide) in paragraph at lines 2006--2015
 []@texttt > @textrm [X,t[]X,unit[]X] = mataa[]signal[]calibrate[]DUTin (in,t,'G
 ENERIC[]CHAIN[]DIRECT.txt');|
 
@@ -663,7 +684,7 @@ ENERIC[]CHAIN[]DIRECT.txt');|
 .etc.
 
 
-Overfull \hbox (15.583pt too wide) in paragraph at lines 2005--2014
+Overfull \hbox (15.583pt too wide) in paragraph at lines 2006--2015
 []@texttt > @textrm [Y,t[]Y,unit[]Y] = mataa[]signal[]calibrate[]DUTout (out,t,
 'GENERIC[]CHAIN[]DIRECT.txt');|
 
@@ -676,7 +697,7 @@ Overfull \hbox (15.583pt too wide) in paragraph at lines 2005--2014
 .etc.
 
 [66] [67] [68]
-Overfull \hbox (175.83957pt too wide) in paragraph at lines 2132--2136
+Overfull \hbox (175.83957pt too wide) in paragraph at lines 2138--2142
 []@textrm - pink noise gen-er-a-tion: http://www.mathworks.com/matlabcentral/fi
 leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 
@@ -689,7 +710,7 @@ leexchange/loadFile.do?objectId=5091&objectkind=FILE|
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2132--2136
+Underfull \hbox (badness 10000) in paragraph at lines 2138--2142
 
 
 @hbox(0.0+0.0)x433.62
@@ -697,7 +718,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 2132--2136
 .@glue(@rightskip) 0.0
 
 [69] [70] [71]
-Overfull \hbox (46.3882pt too wide) in paragraph at lines 2268--2279
+Overfull \hbox (46.3882pt too wide) in paragraph at lines 2274--2285
 []@textrm The fol-low-ing win-dow func-tions are avail-able (see e.g. http://en
 .wikipedia.org/wiki/Window[]function|
 
@@ -710,7 +731,7 @@ Overfull \hbox (46.3882pt too wide) in paragraph at lines 2268--2279
 .etc.
 
 
-Overfull \hbox (200.48233pt too wide) in paragraph at lines 2268--2279
+Overfull \hbox (200.48233pt too wide) in paragraph at lines 2274--2285
 []@textrm 'flattop': Flat-top win-dow, us-ing the @texttt "@textrm SRS shape co
 -ef-fi-cients@texttt " @textrm (see https://en.wikipedia.org/wiki/Window[]funct
 ion#Flat[]top[]window|
@@ -740,8 +761,8 @@ Missing character: There is no Â in font cmr10!
 Missing character: There is no   in font cmr10!
 Missing character: There is no Â in font cmr10!
 Missing character: There is no   in font cmr10!
- [74] [75] [76]
-Underfull \hbox (badness 10000) in paragraph at lines 2495--2506
+ [74] [75] [76] [77]
+Underfull \hbox (badness 10000) in paragraph at lines 2503--2514
 []@textrm http://www.audiomatica.com/wp/wp-content/uploads/Testing-Loudspeakers
 -at-low-
 
@@ -753,8 +774,8 @@ Underfull \hbox (badness 10000) in paragraph at lines 2495--2506
 .@textrm t
 .etc.
 
-[77] [78]
-Underfull \hbox (badness 10000) in paragraph at lines 2555--2578
+[78]
+Underfull \hbox (badness 10000) in paragraph at lines 2565--2588
 []@textrm http://www.audiomatica.com/wp/wp-content/uploads/Testing-Loudspeakers
 -at-low-
 
@@ -767,7 +788,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 2555--2578
 .etc.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2579--2582
+Underfull \hbox (badness 10000) in paragraph at lines 2589--2592
 []@textrm raa[]sum[]IR[]nearfield(ir[]driver, S[]driver, ir[]port, S[]port, ir[
 ]port, S[]port) @texttt >
 
@@ -784,7 +805,7 @@ texinfo.tex: doing @include of MATAA_manual_MatOctPrimer.texi
 
 
 (/home/jens/prj/mataa-hggit/documentation/source/MATAA_manual_MatOctPrimer.texi
-Chapter 6 [79]
+Chapter 6 [79] [80]
 Missing character: There is no Ê in font cmr10!
 
 Overfull \hbox (34.82065pt too wide) in paragraph at lines 35--36
@@ -804,13 +825,13 @@ ia.org/wiki/MATLAB)|
 .@textrm n
 .etc.
 
-[80])
+[81])
 texinfo.tex: doing @include of MATAA_manual_licenses.texi
 
 
 (/home/jens/prj/mataa-hggit/documentation/source/MATAA_manual_licenses.texi
-Appendix A [81] [82] [83] [84] [85] [86] [87] [88] [89] [90] [91] [92])
-(Concept index) [93]
+Appendix A [82] [83] [84] [85] [86] [87] [88] [89] [90] [91] [92] [93])
+(Concept index) [94]
 Overfull \vbox (86.2276pt too high) has occurred while \output is active
 @vbox(636.00703+0.0)x207.80492
 .@glue(@splittopskip) 26.12001
@@ -824,7 +845,7 @@ Overfull \vbox (86.2276pt too high) has occurred while \output is active
 .etc.
 
 
-(MATAA tools index) [94]
+(MATAA tools index) [95]
 Overfull \vbox (33.66702pt too high) has occurred while \output is active
 \vbox(643.2+0.0)x433.62
 .\glue(\topskip) 0.0
@@ -840,10 +861,10 @@ ischapter \ETC.}
 \ETC.}
 
 
-[95] [96] ) 
+[96] [97] ) 
 Here is how much of TeX's memory you used:
- 4020 strings out of 497050
- 48707 string characters out of 6204536
+ 4021 strings out of 497050
+ 48709 string characters out of 6204536
  127798 words of memory out of 5000000
  4891 multiletter control sequences out of 15000+600000
  32778 words of font info for 114 fonts, out of 8000000 for 9000
@@ -868,10 +889,10 @@ nts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt1
 0.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
-Output written on MATAA_manual.pdf (101 pages, 1176951 bytes).
+Output written on MATAA_manual.pdf (102 pages, 1177727 bytes).
 PDF statistics:
- 1568 PDF objects out of 1728 (max. 8388607)
- 1360 compressed objects within 14 object streams
- 233 named destinations out of 1000 (max. 500000)
+ 1573 PDF objects out of 1728 (max. 8388607)
+ 1364 compressed objects within 14 object streams
+ 234 named destinations out of 1000 (max. 500000)
  1049 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -3,7 +3,7 @@
 
 @paragraphindent 0
 
-This section contains a list of the MATAA tools and their usage information as of 15-Apr-2020.
+This section contains a list of the MATAA tools and their usage information as of 26-May-2020.
 
 @findex mataa_audio_guess_latency
 @node mataa_audio_guess_latency
@@ -1071,7 +1071,7 @@ subplot (2,1,2); semilogx (f,Zmag); xlabel ('Frequency (Hz)'); ylabel ('Impedanc
 
 file: ...mataa_tools/mataa_measure_IR_HD.m@*
 
-function [h, t, tN, unit] = mataa_measure_IR_HD (P, T, fs, N, latency, cal, amplitude, unit)@*
+function hi = mataa_measure_IR_HD (P, T, fs, N, tL, latency, cal, A, unit)@*
 
 DESCRIPTION:@*
 Measures the impulse response and the harmonic distortion products using the "Farina method". This uses an exponential sine sweep (chirp) as a test signal. The sweep of length T contains an integer number of octaves down from the Nyquist frequency. The impulse responses of the fundamental and harmonic distorion products are determined by convolving the DUT response with the inverse filter corresponding to the chirp signal. The magnitude spectrum ripple in the high-frequency extreme is minimized due to the sweep beginning and ending in phase zero. A Hanning fade-in is applied for the first octave, so the flat spectrum is (P - 1) octaves long. Similarly, a Hanning fade-out is applied to the last 1/24 octave to reduce the ripple even more.@*
@@ -1082,39 +1082,40 @@ A. Farina, “Simultaneous Measurement of Impulse Response and Distortion with a
 Ian H. Chan: "Swept Sine Chirps for Measuring Impulse Response", Technical Note, Stanford Research Systems, Inc, 2010. Available at http://www.thinksrs.com/downloads/PDFs/ApplicationNotes/SR1_SweptSine.pdf@*
 K. Vetter, S. di Rosario: "ExpoChirpToolbox: a Pure Data implementation of ESS impulse response measurement", Rotterdam/London, July 2011. Available at http://www.uni-weimar.de/medien/wiki/PDCON:Conference/Pure_Data_implementation_of_an_ESS-based_impulse_response_acoustic_measurement_tool. ExpoChirpToolbox page: http://www.katjaas.nl/expochirp/expochirp.html.@*
 
-NOTE:@*
-This code was contributed by estearg (github) on 24.12.2017+30.12.2017 and modified to better suit the MATAA way of code.@*
+NOTEs:@*
+(1) The original code was contributed by estearg (github) on 24.12.2017+30.12.2017 and modified to better suit the MATAA way of code.@*
+(2) This code went through substantial changes and fixes (Aug 2019), because it was hard to use and gave wrong results. After substantial testing and comparison with discrete distortion testing, the distortion results now seem to be consistent with those obtained from conventional (discrete frequency) methods.@*
 
 INPUT:@*
 P: integer number of octaves, of which the first will be spent on a fade-in window@*
 T: desired sweep duration@*
 fs: sampling frequency@*
-N: see tN (OUTPUT) below@*
+N: number of harmonics included in the analysis@*
+tL: length of anechoic part of impulse response (seconds)@*
 latency (optional): see mataa_measure_signal_response@*
 cal (optional): see mataa_measure_signal_response@*
-amplitude and unit (optional): amplitude (peak-to-zero) and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'@*
+A and unit (optional): amplitude and unit of test signal at DUT input (see mataa_measure_signal_response). Note that the 'unit' controls the amplitude of the analog signal at the DUT input. Default: amplitude = 1, unit = 'digital'@*
 
 OUTPUT:@*
-h: impulse response@*
-t: time@*
-tN: time shift of the k-th impulse responses relative to the linear response (k = 1...N).@*
-unit: unit of data in h@*
+hi: vector of structs with measured data. hi(1) corresponds to the fundamental, h(k) to the k-th harmonic, with k = 2...N.@*
+hi(k).mag: magitude data@*
+hi(k).phase: phase data@*
+hi(k).mag_unit: unit of mag@*
+hi(k).percent: percentage of harmonic amplitude relative to fundamental@*
+hi(k).f: frequency values for mag, phase and percent@*
+hi(k).h: impulse response data@*
+hi(k).h_unit: unit of h@*
+hi(k).t: time values for impulse response data@*
 
 EXAMPLE:@*
-> % Measure DUT response using chirp test signal:@*
-> P = 8; T=10; fs = 44100; N = 3; amplitude = 0.5; % measurement parameters@*
-> [h,t,tN,unit] = mataa_measure_IR_HD (P,T,fs,N,[],'GENERIC_CHAIN_ACOUSTIC.txt',amplitude,'Volt'); % perform measurement@*
-> % Determine start of main (fundamental) impulse response and plot the impulse response data:@*
-> k = round(length(h)*0.45); t0 = mataa_guess_IR_start(h(k:end),t(k:end)); t = t-t0; % set linear response to t = 0@*
-> figure(1);semilogy (t,abs(h)); axis([t(1) t(end) 1E-7 2]); grid on; xlabel ('Time (s)'); ylabel (sprintf('abs(Amplitude) (%s)',unit)); % plot the IR data@*
-> % separate the fundamental and harmonics, convert to frequency domain, and plot result:@*
-> [h1,t1] = mataa_signal_crop(h,t,0,t(end)); % extract the linear response@*
-> [h2,t2] = mataa_signal_crop(h,t,-tN(2),-tN(1)-0.2*(tN(2)-tN(1))); % extract the second order response@*
-> [h3,t3] = mataa_signal_crop(h,t,-tN(3),-tN(2)-0.2*(tN(3)-tN(2))); % extract the third order response@*
-> [m1, p1, f1] = mataa_IR_to_FR (h1, fs, 1/8, unit); % get the linear frequency response@*
-> [m2, p2, f2] = mataa_IR_to_FR (h2, fs, 1/8, unit); % get the second order frequency response@*
-> [m3, p3, f3] = mataa_IR_to_FR (h3, fs, 1/8, unit); % get the third order frequency response@*
-> figure(2); semilogx (f1, m1, ';Fundamental;' , f2, m2, ';2nd harmonic;' , f3, m3, ';3rd harmonic;'); axis([100 fs/2]); ylabel ('dB-SPL'); xlabel ('Frequency (Hz)'); % plot the linear and second order response@*
+> % Measure anechoic loudspeaker response (above 300 Hz) and harmonic distortions (2nd and 3rd) using P=8 octaves, T=3 s, fs=96 kHz, default latency, and 1 V (peak-to-zero) drive voltage:@*
+> h = mataa_measure_IR_HD (8,3,96000,3,1/300,[],'MB_ACOUSTIC_CHAIN_DUT.txt',1,'V');@*
+> figure(1);@*
+> semilogx (h(1).f,h(1).mag,'k-;Fundamental;' , h(2).f,h(2).mag,'b-;2nd;' , h(3).f,h(3).mag,'r-;3rd;'); % plot absolute levels@*
+> xlim([300 20E3]); ylabel ('dB-SPL'); xlabel ('Frequency (Hz)');@*
+> figure(2);@*
+> loglog(h(2).f,h(2).percent,'-b;2nd;' , h(3).f,h(3).percent,'r-;3rd;') % plot levels relative to fundamental@*
+> xlim([300 20E3]); ylabel ('HD (%)'); xlabel ('Frequency (Hz)');@*
 
 
 @findex mataa_measure_IR
@@ -2104,6 +2105,11 @@ kind can be one of the following:@*
                     See@*
                     Shaped Tone-Burst Testing, SIEGFRIED LlNKWITZ,@*
                     JOURNAL OF THE AUDIO ENGINEERING SOCIETY, 1980 APRIL, VOLUME 28, NUMBER 4@*
+'burstab'           Like 'burst', but alternating between both channels (for A/B tests).@*
+                    fs = 48e3@*
+                    vf = mataa_octspace(40, 400, 8)@*
+                    burst = mataa_signal_generator('burstab', fs, 0.8, vf);@*
+                    mataa_measure_signal_response(burst,fs,0.3,1,[1 2]);@*
 
 OUTPUT:@*
 s: vector containing the signal samples (tha values in s can range from -1...+1)@*
@@ -2475,13 +2481,15 @@ function res = raa_measure_speaker(testsignals, fs, strName='', cTags={}, RRef=0
 
 file: ...mataa_tools/raa_plot_FR.m@*
 
-function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1)@*
+function raa_plot_FR(cIR, firstfigurenum=1, fixed_at=[], plot_phase=1,smooth_interval=-1)@*
 
     Plot frequency response@*
 
 
-    'fixed_at' can be a vector with two elements [frequency magnitude]@*
-    where all responses will be shifted to.@*
+    'fixed_at' can be [], or a vector with one element [frequency] or two@*
+    elements [frequency magnitude] where all responses will be shifted to.@*
+
+    smooth_interval: width of octave band used for smoothing@*
 
     If a measurement contains 'MIB' in its 'tags' structure field (cell@*
     array of strings) the measurement is assumed to be of "microphone in box"@*
@@ -2525,6 +2533,8 @@ function raa_plot_time_dB(cellarray_or_one_measurement)@*
     see@*
     Shaped Tone-Burst Testing, SIEGFRIED LlNKWITZ,@*
     JOURNAL OF THE AUDIO ENGINEERING SOCIETY, 1980 APRIL, VOLUME 28, NUMBER 4@*
+
+    Use raa_align if you want to average multiple measurements.@*
 
 @findex raa_propagate_meta
 @node raa_propagate_meta

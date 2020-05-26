@@ -100,7 +100,7 @@
 @numsecentry{mataa_signal_pad_Zeros}{5.82}{mataa_signal_pad_Zeros}{69}
 @numsecentry{mataa_signal_removeHF}{5.83}{mataa_signal_removeHF}{70}
 @numsecentry{mataa_signal_save}{5.84}{mataa_signal_save}{70}
-@numsecentry{mataa_signal_spectrogram}{5.85}{mataa_signal_spectrogram}{70}
+@numsecentry{mataa_signal_spectrogram}{5.85}{mataa_signal_spectrogram}{71}
 @numsecentry{mataa_signal_to_TestToneFile}{5.86}{mataa_signal_to_TestToneFile}{71}
 @numsecentry{mataa_signal_window}{5.87}{mataa_signal_window}{72}
 @numsecentry{mataa_smooth_log}{5.88}{mataa_smooth_log}{74}
@@ -117,11 +117,11 @@
 @numsecentry{raa_plot_imp}{5.99}{raa_plot_imp}{78}
 @numsecentry{raa_plot_time_dB}{5.100}{raa_plot_time_dB}{78}
 @numsecentry{raa_propagate_meta}{5.101}{raa_propagate_meta}{78}
-@numsecentry{raa_sum_IR_nearfield}{5.102}{raa_sum_IR_nearfield}{78}
-@numchapentry{Getting started with MATLAB or Octave}{6}{Getting started with MATLAB or Octave}{80}
-@appentry{Licences}{A}{Licenses}{82}
-@appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{82}
-@appsecentry{GNU Free Documentation License}{A.2}{GNU Free Documentation License}{86}
-@appsubsecentry{ADDENDUM: How to use this License for your documents}{A.2.1}{}{93}
-@unnchapentry{Concept index}{10001}{Concept index}{95}
-@unnchapentry{MATAA tools index}{10002}{MATAA tools index}{96}
+@numsecentry{raa_sum_IR_nearfield}{5.102}{raa_sum_IR_nearfield}{79}
+@numchapentry{Getting started with MATLAB or Octave}{6}{Getting started with MATLAB or Octave}{81}
+@appentry{Licences}{A}{Licenses}{83}
+@appsecentry{GNU General Public License (Version 2, June 1991)}{A.1}{GNU General Public License}{83}
+@appsecentry{GNU Free Documentation License}{A.2}{GNU Free Documentation License}{87}
+@appsubsecentry{ADDENDUM: How to use this License for your documents}{A.2.1}{}{94}
+@unnchapentry{Concept index}{10001}{Concept index}{96}
+@unnchapentry{MATAA tools index}{10002}{MATAA tools index}{97}

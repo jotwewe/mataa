@@ -86,7 +86,7 @@
 \entry {\code {mataa_signal_spectrogram}}{70}
 \entry {\code {mataa_signal_to_TestToneFile}}{71}
 \entry {\code {mataa_signal_window}}{72}
-\entry {\code {mataa_smooth_log}}{73}
+\entry {\code {mataa_smooth_log}}{74}
 \entry {\code {mataa_speaker_TSP_addmass}}{74}
 \entry {\code {mataa_t_to_f}}{75}
 \entry {\code {mataa_t_to_f0}}{75}
