@@ -32,6 +32,11 @@ function [s,t,info] = mataa_signal_generator (kind,fs,T,param, param2)
 %                     See 
 %                     Shaped Tone-Burst Testing, SIEGFRIED LlNKWITZ,
 %                     JOURNAL OF THE AUDIO ENGINEERING SOCIETY, 1980 APRIL, VOLUME 28, NUMBER 4
+% 'burstab'           Like 'burst', but alternating between both channels (for A/B tests).
+%                     fs = 48e3
+%                     vf = mataa_octspace(40, 400, 8)
+%                     burst = mataa_signal_generator('burstab', fs, 0.8, vf);
+%                     mataa_measure_signal_response(burst,fs,0.3,1,[1 2]);
 %
 % OUTPUT:
 % s: vector containing the signal samples (tha values in s can range from -1...+1)
@@ -216,10 +221,24 @@ switch kind
         num_cycles = 5;
       end
       [s,t] = mataa_signal_generator_burst(fs, param, T, num_cycles);
+    case {'burstab'},
+      if nargin < 4
+        error('Missing arguments.')
+      end
+      if nargin > 4
+        num_cycles = param2;
+      else
+        num_cycles = 5;
+      end
+      [s,t] = mataa_signal_generator_burst_ab(fs, param, T, num_cycles);
     otherwise
         error('mataa_signal_generator: unknown signal kind.');
 end
-s = s(:); t = t(:); % make sure we've got column vectors
+% make sure we've got column vectors
+t = t(:);
+if columns(s) > rows(s)
+  s = s';
+end
 end % of function
 
 
@@ -229,8 +248,8 @@ function [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
   %     fs: sampling rate
   %     vf: vector of frequencies
   %     tPause: duration of silence between bursts
-  %
-  %
+  
+  
   % Copyright (C) 2020 Jens W. Wulf.
   padding_level = mataa_settings('padding_level');
   y = [];
@@ -250,6 +269,48 @@ function [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
     y_ = sin(2*pi*t_*f) .* (0.5 - 0.5 * cos(2*pi*t_*f/num_cycles));
     t = [t toff+t_]; 
     y = [y y_];
+  end
+end
+
+function [y, t] = mataa_signal_generator_burst_ab(fs, vf, tPause, num_cycles=5)
+  % function [y, t] = mataa_signal_generator_burst(fs, vf, tPause, num_cycles=5)
+  %
+  %     fs: sampling rate
+  %     vf: vector of frequencies
+  %     tPause: duration of silence between bursts
+
+
+  % Copyright (C) 2020 Jens W. Wulf.
+  padding_level = mataa_settings('padding_level');
+  y = [];
+  t = [];
+  toff = 0;
+  idxf = 1;
+  lr   = 0;
+  for n=1:2*length(vf)
+    f = vf(idxf);
+    if n > 1
+      toff = t(end) + 1/fs;
+      anz = tPause * fs;
+      t = [t toff+1/fs*[0:anz-1]];
+      y = [y [padding_level*ones(1,anz) ; padding_level*ones(1,anz)] ];
+      toff = t(end) + 1/fs;
+    end
+    % f, fs
+    t_ = [0:1/fs:num_cycles/f];
+    y_ = sin(2*pi*t_*f) .* (0.5 - 0.5 * cos(2*pi*t_*f/num_cycles));    
+    t = [t toff+t_];
+    % Silence other channel:
+    ys_ = padding_level*ones(1,length(y_));
+    %
+    if lr == 0
+      y = [y [y_ ; ys_] ];
+      lr = 1;
+    else
+      y = [y [ys_ ; y_] ];
+      lr = 0;
+      idxf += 1;
+    end
   end
 end
 
