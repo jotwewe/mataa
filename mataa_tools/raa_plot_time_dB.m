@@ -4,6 +4,8 @@ function res = raa_plot_time_dB(cellarray_or_one_measurement, lim_dB=-50)
   %     see 
   %     Shaped Tone-Burst Testing, SIEGFRIED LlNKWITZ,
   %     JOURNAL OF THE AUDIO ENGINEERING SOCIETY, 1980 APRIL, VOLUME 28, NUMBER 4
+  %
+  %     Use raa_align if you want to average multiple measurements.
 
   % This file is part of MATAA.
   % Copyright (C) 2020 Jens W. Wulf.
